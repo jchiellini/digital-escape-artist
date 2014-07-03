@@ -364,6 +364,28 @@ module.exports = function (grunt) {
       ]
     },
 
+    gitcommit: {
+      task: {
+        options: {
+          message: '',
+          noVerify: true,
+          noStatus: false
+        },
+        files: {
+          src: ['']
+        }
+      }
+    },
+
+    gitpush: {
+      github: {
+        options: {
+          remote:'origin',
+          branch:'master'
+        }
+      }
+    },
+
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
@@ -454,9 +476,15 @@ module.exports = function (grunt) {
     ]);
   });
 
+  grunt.loadNpmTasks('grunt-git');
+
   grunt.registerTask('server', function () {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
     grunt.task.run(['serve']);
+  });
+
+  grunt.registerTask('push',['gitcommit','gitpush'],function(message){
+      console.log(message)
   });
 
   grunt.registerTask('test', function(target) {
